@@ -1,6 +1,7 @@
 import styled from "styled-components"
 
 const Container = styled.nav`
+    position: relative;
     width: 100%;
     height: 50px;
 `

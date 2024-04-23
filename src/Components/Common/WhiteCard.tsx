@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "@emotion/styled"
 
 const Container = styled.section`
     min-height: 50px;
@@ -7,9 +7,10 @@ const Container = styled.section`
     border: 1px solid #fff;
 `;
 
+
 const WhiteCard = (props: any) => {
 
-    return <Container>{props.children}</Container>
+    return <Container className={props.className}>{props.children}</Container>
 }
 
 
