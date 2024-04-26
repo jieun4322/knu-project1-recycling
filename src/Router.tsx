@@ -6,7 +6,9 @@ import {
 // screens
 import AdScreen from "@/Components/Screens/AdScreen"
 import ReadyScreen from "@/Components/Screens/Ready"
-
+import FrScreen from "@/Components/Screens/FaceRecognition"
+import WaitingScreen from "./Components/Screens/WaitingPetScreen";
+import ResultScreen from "./Components/Screens/Result";
   
 const router = createBrowserRouter([
     {
@@ -16,7 +18,19 @@ const router = createBrowserRouter([
     {
         path: "/ready",
         element: <ReadyScreen />,
-      },
+    },
+    {
+      path: "/facerecognition",
+      element: <FrScreen />,
+    },
+    {
+      path: "/waiting",
+      element: <WaitingScreen />,
+    },
+    {
+      path: "/result",
+      element: <ResultScreen />,
+    },
   ]);
   
 export default () => <RouterProvider router={router} />

@@ -10,8 +10,8 @@ const Button = styled(Link)`
     border-radius: 20px;
     color: white;
     text-decoration: none;
-    font-size: 24px;
-    font-weight: bold;
+    font-size: 38px;
+    font-weight: 500;
     justify-content: center;
     align-items: center;
     position: relative;
