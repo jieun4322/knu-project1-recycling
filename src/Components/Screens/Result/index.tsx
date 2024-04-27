@@ -1,4 +1,7 @@
 import styled from "@emotion/styled"
+import {useSnapshot} from "valtio"
+
+import {userInfoProxy, additionalDataProxy, resultInfoProxy} from "@/store"
 
 // compoennts
 import Header from "@/Components/Common/Header"
@@ -64,40 +67,39 @@ const StyledFooter = styled.footer`
     box-sizing: border-box;
 `;
 
-//const UserInfo
-const UserName: string = "아무개";
-const PetCount: number = 1;
-const TotalPoint: number = 2000;
-const PersonalRanking: number = 2;
-const RegionRanking: number = 1; 
 
 const ResultScreen = () => {
+    const user:any = useSnapshot(userInfoProxy);
+    const additional:any = useSnapshot(additionalDataProxy);
+    const result:any = useSnapshot(resultInfoProxy);
+
+
     return <BackgroundImage>
         <Header></Header>
 
         <ContentContainer>
             <FlexContainer>
                 <StyledWhiteCard className="top">
-                    <TopInfo>{UserName}님 반가워요</TopInfo>
+                    <TopInfo>{user.name}님 반가워요</TopInfo>
                 </StyledWhiteCard>
 
                 <StyledWhiteCard className="mid">
                     <MidPointInfo>
-                        <div>총 {PetCount}개의 페트병을 투여했어요</div>
-                        Total Point : {TotalPoint}P (+{PetCount*10})
+                        <div>총 {additional.petCount}개의 페트병을 투여했어요</div>
+                        Total Point : {result.point}P (+{additional.point})
                     </MidPointInfo>
                 </StyledWhiteCard>
 
                 <StyledWhiteCard className="ranking">
                     <RankingInfo className="personal">개인 랭킹<div></div></RankingInfo>
                     <RankingInfo className="region">지역 랭킹</RankingInfo>
-                    <RankingInfo className="personal">{PersonalRanking}위</RankingInfo>
-                    <RankingInfo className="region">{RegionRanking}위</RankingInfo>
+                    <RankingInfo className="personal">{result.personalRanking}위</RankingInfo>
+                    <RankingInfo className="region">{result.regionRanking}위</RankingInfo>
                 </StyledWhiteCard>
             </FlexContainer>
 
             <StyledFooter>
-                <BackButton>투입 종료하기</BackButton>
+                <BackButton>돌아가기</BackButton>
             </StyledFooter>
         </ContentContainer>
     </BackgroundImage>

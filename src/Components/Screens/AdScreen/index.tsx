@@ -17,7 +17,7 @@ const AdScreen = () => {
 
     return <>
         <Header />
-        <Link to={`/result`}>
+        <Link to={`/ready`}>
             <Container>
                 <img src={adImage} />
             </Container>

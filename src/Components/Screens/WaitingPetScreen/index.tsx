@@ -1,11 +1,21 @@
 import styled from "@emotion/styled"
+import { useEffect, useRef } from "react";
+import {useNavigate} from "react-router-dom"
+import {useSnapshot} from "valtio"
 
-// compoennts
+import {setResultState, userInfoProxy, additionalDataProxy, resultInfoProxy} from "@/store"
+import PetApi from "@/api/Pet";
+import PointApi from "@/api/Point";
+import { apiStatuses } from "@/constants";
+
+
+// 컴포넌트 
 import Header from "@/Components/Common/Header"
 import WhiteCard from "@/Components/Common/WhiteCard"
-import BackButton from "@/Components/Common/BackButton"
+import Button from "@/Components/Common/Button"
 import BackgroundImage from "@/Components/Common/BackgroundImage"
 import FlexContainer from "@/Components/Common/FlexContainer"
+import Spinner from "@/Components/Common/Spinner";
 //import ArrowImage from "@/assets/Images/Common/arrow.png"
 
 
@@ -32,6 +42,7 @@ const StyledFooter = styled.footer`
 const StyledWhiteCard = styled(WhiteCard)`
     position: relative;
     flex-grow: 10;
+    overflow: hidden;
 `;
 const TopInfo = styled.div`
     display: block;
@@ -81,16 +92,51 @@ const ViewContainer = styled.div`
 
     }
 `;
-const UserName: string = "아무개";
-const PetCount: number = 1;
 
 const WaitingScreen = () => {
+    const user:any = useSnapshot(userInfoProxy);
+    const additional:any = useSnapshot(additionalDataProxy);
+    const result:any = useSnapshot(resultInfoProxy);
+
+    const petApi = new PetApi;
+    const pointApi = new PointApi;
+
+    const navigate = useNavigate();
+
+    const callComplete = useRef(false);
+
+    const callApi = () => {
+        petApi.injectCheck()
+    }
+
+    const petInjectionComplete = () => {
+        pointApi.getAll().then(() => {
+            setResultState({
+                api: {
+                    status: apiStatuses.idle
+                }
+            })
+            navigate("/result")
+        });
+    }
+
+    const completeOnClick = () => {
+        if(result.api.status !== apiStatuses.idle) callComplete.current = true;
+        else petInjectionComplete();
+    };
+    
+    useEffect(() => {
+        callApi(); 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [additional.petCount]);
+
+    
     return <BackgroundImage>
         <Header></Header>
         <ContentContainer>
 
             <StyledTop>
-                <StyledWhiteCard><TopInfo>{UserName}님 반가워요</TopInfo></StyledWhiteCard>
+                <StyledWhiteCard><TopInfo>{user.name}님 반가워요</TopInfo></StyledWhiteCard>
             </StyledTop>
 
             <StyledWhiteCard>
@@ -101,13 +147,13 @@ const WaitingScreen = () => {
                 </StyledFlexContainer>
                 <ViewContainer className="left">투입한 페트</ViewContainer>
                 <ViewContainer className="right">Point</ViewContainer>
-                <ViewContainer className="left">{PetCount}</ViewContainer>
-                <ViewContainer className="right">{PetCount*10}</ViewContainer>
+                <ViewContainer className="left">{additional.petCount}</ViewContainer>
+                <ViewContainer className="right">{additional.point}</ViewContainer>
             </StyledWhiteCard>
             
 
             <StyledFooter>
-                <BackButton>투입 종료하기</BackButton>
+            {additional.petCount > 0 ? <Button onClick={completeOnClick} disabled={result.api.status !== apiStatuses.idle}>{result.api.status === apiStatuses.pending ? <Spinner /> :  "투입 종료하기"}</Button> : null}
             </StyledFooter>
             
         </ContentContainer>

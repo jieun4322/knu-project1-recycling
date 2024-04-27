@@ -1,10 +1,16 @@
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable react-hooks/rules-of-hooks */
 import styled from "@emotion/styled"
+import { useNavigate } from "react-router-dom"
+import { useEffect } from "react"
+import { setAdditionalState, setResultState } from "@/store"
 
 //components
 import Header from "@/Components/Common/Header"
 import WhiteCard from "@/Components/Common/WhiteCard"
 import BackgroundImage from "@/Components/Common/BackgroundImage"
 import FlexContainer from "@/Components/Common/FlexContainer"
+import { apiStatuses } from "@/constants"
 
 const StyledWhiteCard = styled(WhiteCard)`
     position: relative;
@@ -25,6 +31,27 @@ const FrScreenInfo = styled.h3`
 `;
 
 const frScreen = () => {
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        setTimeout(() => {
+            setAdditionalState({
+                point: 0,
+                petCount: 0,
+                api: {
+                    status: apiStatuses.idle
+                }
+            });
+            setResultState({
+                api: {
+                    status: apiStatuses.idle
+                }
+            })
+            navigate("/waiting")
+        }, 3000)
+    }, [navigate]);
+
     return <BackgroundImage>
         <Header></Header>
         <FlexContainer>

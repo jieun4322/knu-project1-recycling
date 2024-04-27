@@ -4,7 +4,7 @@ import styled from "@emotion/styled"
 import Header from "@/Components/Common/Header"
 import WhiteCard from "@/Components/Common/WhiteCard"
 import FlexContainer from "@/Components/Common/FlexContainer"
-import BackButton from "@/Components/Common/BackButton"
+import Button from "@/Components/Common/Button"
 import BackgroundImage from "@/Components/Common/BackgroundImage"
 
 const ContentContainer = styled.div`
@@ -161,7 +161,7 @@ const ReadyScreen = () => {
             </FlexContainer>
             
             <StyledFooter>
-                <BackButton>돌아가기</BackButton>
+                <Button to="/facerecognition">시작하기</Button>
             </StyledFooter>
         </ContentContainer>
     </BackgroundImage>
