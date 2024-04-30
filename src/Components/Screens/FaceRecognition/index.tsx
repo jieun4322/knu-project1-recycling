@@ -30,6 +30,12 @@ const FrScreenInfo = styled.h3`
     padding: 10%;
 `;
 
+//폭죽 애니메이션
+//https://alvaromontoro.com/blog/68002/creating-a-firework-effect-with-css
+
+//체크박스 애니메이션
+//https://bbbootstrap.com/snippets/animated-checkmark-50934051
+
 const frScreen = () => {
 
     const navigate = useNavigate();

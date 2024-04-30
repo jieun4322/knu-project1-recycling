@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import adImage from "@/assets/Images/ad-screen-image.jpg"
+import adImage from "@/assets/Images/ad-screen-image1.jpg"
 import { Link } from "react-router-dom";
 // components
 import Header from "@/Components/Common/Header"

@@ -45,7 +45,7 @@ const GlobalStyle = createGlobalStyle`
     }
 
     :root{
-        --color-primary: #119D17;
+        --color-primary: #225844;
         
     }
 

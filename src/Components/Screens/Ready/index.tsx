@@ -32,7 +32,7 @@ const Title = styled.h3`
     position: relative;
     font-size: 48px;
     padding: 20px 0 0 0;
-    font-weight: bold;
+    font-weight: 500; 
 `;
 
 interface WaveContainerProps {
@@ -62,7 +62,7 @@ const Wave = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-color: #3b95bc;
+    background-color: #4fccbb;
     font-family: Roboto;
     overflow: hidden;
     z-index: 0;
@@ -102,7 +102,7 @@ const Wave = styled.div`
 `;
 
 const WaveBackground = styled.div`
-    background-color: #3b95bc;
+    background-color: #42c6bb;
     flex-grow: 1;
     width: 100%;
     margin-top: -2px;
@@ -125,13 +125,13 @@ const PetInfoTitle = styled.h4`
     font-size: 40px;
     width: 100%;
     left: 0;
-    font-weight: bold;
+    font-weight: 500;
 `;
 
 const Percentage = styled.div`
     position: absolute;
     font-size: 64px;
-    font-weight: bold;
+    font-weight: 500;
     width: 100%;
     left: 0;
     bottom: 8%;

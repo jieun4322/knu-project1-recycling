@@ -5,10 +5,15 @@ const Container = styled.nav`
     width: 100%;
     height: 50px;
 `
+const today = new Date().toISOString().substring(0,10);
 
+// const StyledToday = styled(today)`
+//     font-size : 40px;
+    
+// `;
 
 const Header = () => {
-    return <Container>헤더 영역 여기</Container>
+    return <Container>{today}</Container>
 }
 
 export default Header;

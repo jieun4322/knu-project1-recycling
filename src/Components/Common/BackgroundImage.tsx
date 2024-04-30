@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-import backgroundImage from "@/assets/Images/background.jpg"
+import backgroundImage from "@/assets/Images/background5.jpg"
 
 const Container = styled.main`
     display: flex;
@@ -8,7 +8,7 @@ const Container = styled.main`
     padding: 10px;
     height: 100vh;
     box-sizing: border-box;
-    background-color: black;
+    background-color: #8dcf79;
     &::before{
         content: "";
         position: absolute;

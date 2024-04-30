@@ -36,7 +36,7 @@ const TopInfo = styled.div`
     font-size: 45px;
     left: 5%;
     top: 30%;
-    font-weight: 700;
+    font-weight: 500;
     
 `;
 const MidPointInfo = styled.div`

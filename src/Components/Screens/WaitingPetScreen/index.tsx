@@ -50,7 +50,7 @@ const TopInfo = styled.div`
     font-size: 45px;
     left: 5%;
     top: 25%;
-    font-weight: 700;
+    font-weight: 500;
 `;
 const StyledFlexContainer = styled(FlexContainer)`
     position: relative;
@@ -60,7 +60,7 @@ const PutPetText = styled.div`
     position: relative;
     left: 5%;
     font-size: 48px;
-    font-weight: 700;
+    font-weight: 500;
     margin-top: 5%;
     width: 100%;
     height: 50%;
