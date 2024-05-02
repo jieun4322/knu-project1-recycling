@@ -67,6 +67,7 @@ const Wave = styled.div`
     overflow: hidden;
     z-index: 0;
     flex-grow: 1;
+    opacity: 0.6;
 
     &:before,
     &:after {
@@ -106,6 +107,7 @@ const WaveBackground = styled.div`
     flex-grow: 1;
     width: 100%;
     margin-top: -2px;
+    opacity: 0.6;
 `;
 
 const PetInfoContainer = styled.div`
@@ -115,7 +117,6 @@ const PetInfoContainer = styled.div`
     width: 100%;
     height: 100%;
     z-index: 10;
-
     text-align: center;
 `;
 
@@ -135,7 +136,26 @@ const Percentage = styled.div`
     width: 100%;
     left: 0;
     bottom: 8%;
-`
+`;
+
+const BottomInfo = styled.div` 
+    position: absolute;
+    width: 100%;
+    //height: 80%;
+    flex-grow: 2;
+    font-weight: 500;
+    font-size: 40px;
+    text-align: left;
+    bottom: 8%;
+    padding: 0 0 0 30px;
+`;
+
+// const PetNum = styled.div` 
+//     position: absolute;
+//     font-size: 50px;
+//     font-weight: 550;
+//     width: 100%;
+// `
 
 
 const ReadyScreen = () => {
@@ -156,7 +176,7 @@ const ReadyScreen = () => {
                     </WaveContainer>
                 </StyledWhiteCard>
                 <StyledWhiteCard>
-                    hello world
+                    <BottomInfo>1일 최대 투입개수는 개입니다</BottomInfo>
                 </StyledWhiteCard>
             </FlexContainer>
             

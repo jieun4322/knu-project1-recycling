@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-import backgroundImage from "@/assets/Images/background5.jpg"
+import backgroundImage from "@/assets/Images/background6.jpg"
 
 const Container = styled.main`
     display: flex;
@@ -8,7 +8,7 @@ const Container = styled.main`
     padding: 10px;
     height: 100vh;
     box-sizing: border-box;
-    background-color: #8dcf79;
+    background-color: #94debe;
     &::before{
         content: "";
         position: absolute;
@@ -16,7 +16,7 @@ const Container = styled.main`
         left: 0;
         width: 100%;
         height: 100%;
-        opacity: 0.7;
+        opacity: 0.5;
         z-index: 0;
         background-image: url("${backgroundImage}");
         background-size: 100% 100%;

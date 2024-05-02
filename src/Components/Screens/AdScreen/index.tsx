@@ -16,7 +16,7 @@ const Container = styled.main`
 const AdScreen = () => {
 
     return <>
-        <Header />
+        <Header></Header>    
         <Link to={`/ready`}>
             <Container>
                 <img src={adImage} />
