@@ -16,7 +16,6 @@ export const setUserState = (data: any) => {
   });
 }
 
-
 export const resultInfoProxy:any = proxy({
   point: 0,
   personalRanking: 0,

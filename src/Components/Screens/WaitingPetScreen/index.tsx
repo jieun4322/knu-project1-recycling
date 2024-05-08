@@ -1,5 +1,5 @@
 import styled from "@emotion/styled"
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import {useNavigate} from "react-router-dom"
 import {useSnapshot} from "valtio"
 
@@ -103,8 +103,6 @@ const WaitingScreen = () => {
 
     const navigate = useNavigate();
 
-    const callComplete = useRef(false);
-
     const callApi = () => {
         petApi.injectCheck()
     }
@@ -121,14 +119,16 @@ const WaitingScreen = () => {
     }
 
     const completeOnClick = () => {
-        if(result.api.status !== apiStatuses.idle) callComplete.current = true;
-        else petInjectionComplete();
+        if(result.api.status !== apiStatuses.idle) return;
+        
+        petInjectionComplete();
     };
     
     useEffect(() => {
-        callApi(); 
+        if([apiStatuses.idle, apiStatuses.success].includes(additional.api.status)) callApi(); 
+        
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [additional.petCount]);
+    }, [additional.api.status === apiStatuses.success]);
 
     
     return <BackgroundImage>

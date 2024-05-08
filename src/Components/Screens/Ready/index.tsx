@@ -30,8 +30,8 @@ const StyledWhiteCard = styled(WhiteCard)`
 const Title = styled.h3`
     display: block;
     position: relative;
-    font-size: 48px;
-    padding: 20px 0 0 0;
+    font-size: 45px;
+    padding: 20px 0 0 10px;
     font-weight: 500; 
 `;
 
@@ -62,12 +62,11 @@ const Wave = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-color: #4fccbb;
+    background-color: #A5E5DB;
     font-family: Roboto;
     overflow: hidden;
     z-index: 0;
     flex-grow: 1;
-    opacity: 0.6;
 
     &:before,
     &:after {
@@ -103,11 +102,10 @@ const Wave = styled.div`
 `;
 
 const WaveBackground = styled.div`
-    background-color: #42c6bb;
+    background-color: #A5E5DB;
     flex-grow: 1;
     width: 100%;
     margin-top: -2px;
-    opacity: 0.6;
 `;
 
 const PetInfoContainer = styled.div`
@@ -121,9 +119,9 @@ const PetInfoContainer = styled.div`
 `;
 
 const PetInfoTitle = styled.h4`
-    top: 8%;
+    top: 15%;
     position: absolute;
-    font-size: 40px;
+    font-size: 35px;
     width: 100%;
     left: 0;
     font-weight: 500;
@@ -131,11 +129,11 @@ const PetInfoTitle = styled.h4`
 
 const Percentage = styled.div`
     position: absolute;
-    font-size: 64px;
+    font-size: 50px;
     font-weight: 500;
     width: 100%;
     left: 0;
-    bottom: 8%;
+    bottom: 10%;
 `;
 
 const BottomInfo = styled.div` 
@@ -146,7 +144,7 @@ const BottomInfo = styled.div`
     font-weight: 500;
     font-size: 40px;
     text-align: left;
-    bottom: 8%;
+    bottom: 10%;
     padding: 0 0 0 30px;
 `;
 
@@ -159,6 +157,7 @@ const BottomInfo = styled.div`
 
 
 const ReadyScreen = () => {
+    const percentage:number = 50;
     return <BackgroundImage>
         <Header></Header>
         <ContentContainer>
@@ -167,9 +166,9 @@ const ReadyScreen = () => {
                 <StyledWhiteCard>
                     <PetInfoContainer>
                         <PetInfoTitle>현재 수거 가능 용량</PetInfoTitle>
-                        <Percentage>30%</Percentage>
+                        <Percentage>{percentage}%</Percentage>
                     </PetInfoContainer>
-                    <WaveContainer petPercentage={30}>
+                    <WaveContainer petPercentage={percentage}>
                         <WhiteBackground></WhiteBackground>
                         <Wave></Wave>
                         <WaveBackground></WaveBackground>

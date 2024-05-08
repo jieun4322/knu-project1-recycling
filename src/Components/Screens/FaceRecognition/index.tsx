@@ -56,7 +56,8 @@ const frScreen = () => {
             })
             navigate("/waiting")
         }, 3000)
-    }, [navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return <BackgroundImage>
         <Header></Header>
