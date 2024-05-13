@@ -21,13 +21,12 @@ function yyyymmdd(dateIn: Date) {
     return String(yyyy + '년 ' + mm + '월 ' + dd + '일')
 }
 
-
-const date = new Date();
 //const today = new Date().toISOString().substring(0,10);
 
 // const StyledToday = styled(today)`
 //     font-size : 40px;
 // `;
+const date = new Date();
 
 const Header = () => {
     return <>

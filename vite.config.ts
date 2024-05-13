@@ -25,5 +25,13 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, 'src/') // @를 src/ 폴더로 매핑
     }
-  }
+  },
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:8080", // Flask 애플리케이션의 주소
+        changeOrigin: true,
+      },
+    },
+  },
 });
