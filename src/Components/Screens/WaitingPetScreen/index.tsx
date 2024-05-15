@@ -142,31 +142,35 @@ const WaitingScreen = () => {
     }
     myRecognition
       .bottle(imgFile)
-      .then(() => {})
+      .then(() => {
+        setBottle({
+          status: apiStatuses.idle,
+        });
+      })
       .catch(() => {
-        setTimeout(() => {
-          setBottle({
-            status: apiStatuses.idle,
-          });
-        }, 1000);
+        setBottle({
+          status: apiStatuses.idle,
+        });
       });
   };
 
   useEffect(() => {
     // 이거 잠깐 주석
-    // if (bottle.data.status === apiStatuses.idle) setTimeout(() => capture(), 1000);
+    if (bottle.status === apiStatuses.idle) setTimeout(() => capture(), 1000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bottle.status]);
-
+  /*
   const onChange = (event: any) => {
     myRecognition.bottle(event.target.files[0]);
   };
-
+  */
   useEffect(() => {
     clearTimeout(timeoutInstance.current);
     timeoutInstance.current = setTimeout(() => {
       setTimeCount((state) => state - 1);
-      if (timeCount <= 0) navigate("/result");
+      if (timeCount > 0) return;
+      if (point.additionalPoint > 0) navigate("/result");
+      else navigate("/ready");
     }, 1000);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -180,9 +184,7 @@ const WaitingScreen = () => {
 
   return (
     <BackgroundImage>
-      <Header>
-        <input onChange={onChange} type="file" />
-      </Header>
+      <Header>{/*<input onChange={onChange} type="file"/>*/}</Header>
       <ContentContainer>
         <StyledTop>
           <StyledWhiteCard>

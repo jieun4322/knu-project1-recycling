@@ -71,24 +71,23 @@ const frScreen = () => {
         }, 1000);
       });
   };
-
+  /*
   const onchange = (event: any) => {
     myRecognition
       .face(event.target.files[0])
       .then(() => navigate("/recognition-complete"));
   };
-
+  */
   useEffect(() => {
     // 이거 잠깐 주석
-    // if (face.data.status === apiStatuses.idle) setTimeout(() => capture(), 1000);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (face.data.status === apiStatuses.idle)
+      setTimeout(() => capture(), 1000);
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [face.data.status]);
 
   return (
     <BackgroundImage>
-      <Header>
-        <input onChange={onchange} type="file" />
-      </Header>
+      <Header>{/*<input onChange={onchange} type="file" />*/}</Header>
       <FlexContainer>
         <StyledWhiteCard>
           <FrScreenInfo>앞쪽 카메라를 바라 보세요</FrScreenInfo>

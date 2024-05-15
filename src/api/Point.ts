@@ -44,6 +44,15 @@ class Point {
         });
       });
   }
+  reset(){
+    const {setState} = pointProxy;
+    setState({
+      additionalPoint: 0,
+      point: 0,
+      lastPoint: 0,
+      status: apiStatuses.idle
+    })
+  }
 }
 
 export default Point;
