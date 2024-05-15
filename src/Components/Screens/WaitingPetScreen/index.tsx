@@ -1,11 +1,10 @@
 import styled from "@emotion/styled";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSnapshot } from "valtio";
 import Webcam from "react-webcam";
 
 import { pointProxy, userProxy, bottleProxy } from "@/store";
-import PointApi from "@/api/Point";
 import { apiStatuses } from "@/constants";
 
 // 컴포넌트
@@ -110,12 +109,15 @@ const videoConstraints = {
 };
 
 const WaitingScreen = () => {
-  //const navigate = useNavigate();
-  const bottle = useSnapshot(bottleProxy);
-  const user = useSnapshot(userProxy);
-  const point = useSnapshot(pointProxy);
+  const navigate = useNavigate();
+  const { data: bottle } = useSnapshot(bottleProxy);
+  const { data: user } = useSnapshot(userProxy);
+  const { data: point } = useSnapshot(pointProxy);
   const { setState: setBottle } = bottleProxy;
-  const { setState: setPoint } = pointProxy;
+
+  const lastPoint = useRef(0);
+  const timeoutInstance: any = useRef(null);
+  const [timeCount, setTimeCount] = useState(30);
 
   const webcamRef: any = useRef(null);
 
@@ -124,6 +126,8 @@ const WaitingScreen = () => {
   const completeOnClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     event.stopPropagation();
+
+    navigate("/result");
   };
 
   const capture = () => {
@@ -149,54 +153,62 @@ const WaitingScreen = () => {
   };
 
   useEffect(() => {
-    if (bottle.data.status === apiStatuses.idle) capture();
+    // 이거 잠깐 주석
+    // if (bottle.data.status === apiStatuses.idle) setTimeout(() => capture(), 1000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bottle.status]);
+
+  const onChange = (event: any) => {
+    myRecognition.bottle(event.target.files[0]);
+  };
+
+  useEffect(() => {
+    clearTimeout(timeoutInstance.current);
+    timeoutInstance.current = setTimeout(() => {
+      setTimeCount((state) => state - 1);
+      if (timeCount <= 0) navigate("/result");
+    }, 1000);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bottle.data.status]);
+  }, [timeCount]);
 
-  // const onchange = (event: any) => {
-  //   console.log(event.target.files[0]);
-  //   myRecognition.bottle(event.target.files[0]);
-  // };
+  useEffect(() => {
+    if (lastPoint.current >= point.additionalPoint) return;
+    setTimeCount(30);
+    lastPoint.current = point.additionalPoint;
+  }, [point.additionalPoint]);
 
   return (
     <BackgroundImage>
-      <Header></Header>
+      <Header>
+        <input onChange={onChange} type="file" />
+      </Header>
       <ContentContainer>
         <StyledTop>
           <StyledWhiteCard>
-            <TopInfo>{user.data.name}님 반가워요</TopInfo>
+            <TopInfo>{user.name}님 반가워요</TopInfo>
           </StyledWhiteCard>
         </StyledTop>
         <StyledWhiteCard>
           <StyledFlexContainer>
             <PutPetText>페트병을 투입해 주세요</PutPetText>
             <SubMessage>
-              30초 동안 투입하지 않으면 다음화면으로 넘어갑니다.
+              {timeCount}초 동안 투입하지 않으면 다음화면으로 넘어갑니다.
             </SubMessage>
             <Line></Line>
           </StyledFlexContainer>
           <ViewContainer className="left">투입한 페트</ViewContainer>
           <ViewContainer className="right">Point</ViewContainer>
           <ViewContainer className="left">
-            {point.data.additionalPoint}
+            {point.additionalPoint / 10}
           </ViewContainer>
           <ViewContainer className="right">
-            {point.data.additionalPoint}
+            {point.additionalPoint}
           </ViewContainer>
         </StyledWhiteCard>
         <StyledFooter>
-          {point.data.additionalPoint > 0 ? (
-            <Button
-              onClick={completeOnClick}
-              disabled={point.data.status !== apiStatuses.idle}
-            >
-              {point.data.status === apiStatuses.pending ? (
-                <Spinner />
-              ) : (
-                "투입 종료하기"
-              )}
-            </Button>
+          {point.additionalPoint > 0 ? (
+            <Button onClick={completeOnClick}>투입 종료하기</Button>
           ) : null}
         </StyledFooter>
       </ContentContainer>
@@ -210,7 +222,6 @@ const WaitingScreen = () => {
           videoConstraints={videoConstraints}
         />
       </WebCamContainer>
-      {/* <input type="file" onChange={onchange} style={{ position: "fixed" }} /> */}
     </BackgroundImage>
   );
 };

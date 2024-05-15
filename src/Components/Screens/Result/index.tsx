@@ -1,9 +1,10 @@
 import styled from "@emotion/styled";
 import { useSnapshot } from "valtio";
+import { useEffect } from "react";
+import Rank from "@/api/Rank";
+import { userProxy, pointProxy, rankProxy } from "@/store";
 
-import { userProxy, pointProxy } from "@/store";
-
-// compoennts
+// components
 import Header from "@/Components/Common/Header";
 import WhiteCard from "@/Components/Common/WhiteCard";
 import FlexContainer from "@/Components/Common/FlexContainer";
@@ -65,8 +66,20 @@ const StyledFooter = styled.footer`
 `;
 
 const ResultScreen = () => {
-  const user: any = useSnapshot(userProxy);
-  const result: any = useSnapshot(pointProxy);
+  const { data: user } = useSnapshot(userProxy);
+  const { data: point } = useSnapshot(pointProxy);
+  const { data: rank } = useSnapshot(rankProxy);
+
+  const { global: globalRank, region: regionRank, area: areaRank } = rank;
+
+  const myRank = new Rank();
+
+  useEffect(() => {
+    myRank.getGlobalRanking();
+    myRank.getAreaRanking();
+    myRank.getRegionRanking();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <BackgroundImage>
@@ -75,29 +88,22 @@ const ResultScreen = () => {
       <ContentContainer>
         <FlexContainer>
           <StyledWhiteCard className="top">
-            <TopInfo>{user.data.name}님 반가워요</TopInfo>
+            <TopInfo>{user.name}님 반가워요</TopInfo>
           </StyledWhiteCard>
 
           <StyledWhiteCard className="mid">
             <MidPointInfo>
-              <div>
-                총 {result.data.additionalPoint}개의 페트병을 투여했어요
-              </div>
-              Total Point : {result.point}P (+{result.data.additionalPoint})
+              <div>총 {point.additionalPoint / 10}개의 페트병을 투여했어요</div>
+              Total Point : {point.point}P (+{point.additionalPoint})
             </MidPointInfo>
           </StyledWhiteCard>
 
           <StyledWhiteCard className="ranking">
-            <RankingInfo className="personal">
-              개인 랭킹<div></div>
-            </RankingInfo>
-            <RankingInfo className="region">지역 랭킹</RankingInfo>
-            <RankingInfo className="personal">
-              {result.personalRanking}위
-            </RankingInfo>
-            <RankingInfo className="region">
-              {result.regionRanking}위
-            </RankingInfo>
+            <div style={{ fontSize: "36px" }}>
+              <p>전국: {globalRank.rank}위</p>
+              <p>시: {areaRank.rank}위</p>
+              <p>구: {regionRank.rank}위</p>
+            </div>
           </StyledWhiteCard>
         </FlexContainer>
 

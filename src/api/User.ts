@@ -3,7 +3,9 @@
 import {userProxy, pointProxy} from "@/store"
 import {apiStatuses} from "@/constants"
 import axios from "axios";
+import { getToken } from "@/utils";
 
+const SUCCESS_CODE = "SUCCESS_CHECK_USER_INFO"
 class User{
   me(){
     const {setState} = userProxy;
@@ -13,19 +15,31 @@ class User{
     });
     return new Promise((resolve, reject) =>{ axios({
         method: "get",
+        headers: {
+          'Authorization': `Bearer ${getToken()}`
+        },
         url: "/api/auth/check-userinfo",
       })
         .then((response:any) => {
+
+          
+          const { data:responseData} = response;
+          const { result, data} = responseData;
+
+          if(result !== SUCCESS_CODE) return;
+
+          console.log("me", data)
+
           setState({
-            data: {
-              name: response.data?.nickname,
-              regionName: response.data.regionName,
-              areaName: response.data.areaName
-            }
+            name: data.nickname,
+            regionName: data.regionName,
+            areaName: data.areaName,
+            point: parseInt(data.point) 
           });
 
           setPointState({
-            point:30
+            point: parseInt(data.point),
+            additionalPoint: 0
           });
 
           resolve(null);

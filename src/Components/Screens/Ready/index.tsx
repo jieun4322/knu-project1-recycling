@@ -1,4 +1,8 @@
 import styled from "@emotion/styled";
+import { useSnapshot } from "valtio";
+import { containerCapacityProxy } from "@/store";
+
+import bottleImage from "@/assets/Images/waterbottle1.png";
 
 // compoennts
 import Header from "@/Components/Common/Header";
@@ -6,8 +10,6 @@ import WhiteCard from "@/Components/Common/WhiteCard";
 import FlexContainer from "@/Components/Common/FlexContainer";
 import Button from "@/Components/Common/Button";
 import BackgroundImage from "@/Components/Common/BackgroundImage";
-
-import bottleImage from "@/assets/Images/waterbottle1.png";
 
 const ContentContainer = styled.div`
   display: flex;
@@ -174,7 +176,11 @@ const ImageBox1 = styled.div`
 // `
 
 const ReadyScreen = () => {
-  const percentage: number = 50;
+  const { data } = useSnapshot(containerCapacityProxy);
+
+  const percentage: number = Math.floor(
+    (data.currentCapacity / data.total) * 100
+  );
   return (
     <BackgroundImage>
       <Header></Header>
@@ -184,7 +190,7 @@ const ReadyScreen = () => {
           <StyledWhiteCard>
             <PetInfoContainer>
               <PetInfoTitle>수거 가능 용량</PetInfoTitle>
-              <Percentage>{percentage}%</Percentage>
+              <Percentage>{percentage.toString()}%</Percentage>
             </PetInfoContainer>
             <WaveContainer petPercentage={percentage}>
               <WhiteBackground></WhiteBackground>

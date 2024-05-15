@@ -35,21 +35,6 @@ const FrScreenInfo = styled.h3`
   text-align: center;
 `;
 
-//폭죽 애니메이션
-//https://alvaromontoro.com/blog/68002/creating-a-firework-effect-with-css
-//https://jsfiddle.net/elin/7m3bL/
-
-//체크박스 애니메이션
-//https://bbbootstrap.com/snippets/animated-checkmark-50934051
-/*
-1. 웹캠 띄우기
-2. 웹캠 width, height 지정
-3. Canvas로 바꾸기
-4. 얼굴 가이드라인 그리기
-5. 웹캠 얼굴 인식 -> 캡쳐 후 image저장
-6. image 서버로 전송
-*/
-
 const WebCamContainer = styled.div`
   position: absolute;
   top: calc(10% + 100px);
@@ -87,14 +72,23 @@ const frScreen = () => {
       });
   };
 
+  const onchange = (event: any) => {
+    myRecognition
+      .face(event.target.files[0])
+      .then(() => navigate("/recognition-complete"));
+  };
+
   useEffect(() => {
-    if (face.data.status === apiStatuses.idle) capture();
+    // 이거 잠깐 주석
+    // if (face.data.status === apiStatuses.idle) setTimeout(() => capture(), 1000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [face.data.status]);
 
   return (
     <BackgroundImage>
-      <Header></Header>
+      <Header>
+        <input onChange={onchange} type="file" />
+      </Header>
       <FlexContainer>
         <StyledWhiteCard>
           <FrScreenInfo>앞쪽 카메라를 바라 보세요</FrScreenInfo>

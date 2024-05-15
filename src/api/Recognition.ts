@@ -1,8 +1,12 @@
-import {faceProxy, bottleProxy} from "@/store"
+import {faceProxy, bottleProxy, pointProxy, userProxy, containerCapacityProxy} from "@/store"
 import {apiStatuses} from "@/constants"
 import axios from "axios";
 import User from "./User"
+import { getToken, setToken } from "@/utils";
+import Point from "./Point";
 
+const SUCCESS_CODE = "SUCCESS_LOGIN"
+const BOTTLE_SUCCESS_CODE = "SUCCESS_PET_RECOGNITION";
 class Recognition{
   face(image: any){
     const myUser = new User
@@ -20,7 +24,16 @@ class Recognition{
           image: image,
         },
       })
-        .then(() => {
+        .then((response:any) => {
+
+
+          const { data:responseData} = response;
+          const { result, data} = responseData;
+
+          if(result !== SUCCESS_CODE) return 
+
+          setToken(data.access_token)
+
           setState({
             status: apiStatuses.success
           });
@@ -42,6 +55,9 @@ class Recognition{
 
   bottle(image: any){
     const {setState} = bottleProxy;
+    const {setState:setPointState} = pointProxy;
+    const {setState: setCapacity} = containerCapacityProxy;
+    const myPoint = new Point;
     setState({
       status: apiStatuses.pending
     });
@@ -49,14 +65,20 @@ class Recognition{
         method: "post",
         headers: {
           "Content-Type": "multipart/form-data",
+          'Authorization': `Bearer ${getToken()}`
         },
         url: "/api/model/pet-recognition",
         data: {
           image: image,
         },
       })
-        .then(({data}:any) => {
-          if(data.data.count == 0) {
+        .then((response:any) => {
+          const { data:responseData} = response;
+          const { result, data} = responseData;
+
+          if(result !== BOTTLE_SUCCESS_CODE) return;
+
+          if(data.count == 0) {
             setTimeout(() => {
               setState({
                 status: apiStatuses.idle
@@ -65,11 +87,42 @@ class Recognition{
             }, 1000);
             return;
           }
-          setState({
-            status: apiStatuses.success
-          });
 
-          resolve(null);
+          
+          
+          const additionalPoint = Math.max(data.count * 10, pointProxy.data.additionalPoint);
+
+          
+          if(pointProxy.data.lastPoint >=  additionalPoint) {
+              
+            setState({
+              status: apiStatuses.success
+            });
+            resolve(null);
+            return;
+          }
+
+          const addPoints = additionalPoint - pointProxy.data.lastPoint;
+
+          setCapacity({
+            currentCapacity: containerCapacityProxy.data.currentCapacity + addPoints / 10
+          })
+          
+          myPoint.addPoints(addPoints).then(() => {
+            
+            setState({
+              status: apiStatuses.success
+            });
+            setPointState({
+              additionalPoint: additionalPoint,
+              point: userProxy.data.point + additionalPoint,
+              lastPoint: additionalPoint
+            })
+  
+            resolve(null);
+          }).catch((() => {
+            reject();
+          }));
         })
         .catch(() => {
           setState({
