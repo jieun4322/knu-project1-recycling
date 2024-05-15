@@ -13,7 +13,7 @@ import WhiteCard from "@/Components/Common/WhiteCard";
 import Button from "@/Components/Common/Button";
 import BackgroundImage from "@/Components/Common/BackgroundImage";
 import FlexContainer from "@/Components/Common/FlexContainer";
-import Spinner from "@/Components/Common/Spinner";
+//import Spinner from "@/Components/Common/Spinner";
 import Recognition from "@/api/Recognition";
 import { base64ToFile } from "@/utils";
 //import ArrowImage from "@/assets/Images/Common/arrow.png"

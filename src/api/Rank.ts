@@ -1,6 +1,6 @@
 
 import { apiStatuses } from "@/constants";
-import { rankProxy } from "@/store";
+import { rankProxy,userProxy } from "@/store";
 import { getToken } from "@/utils";
 import axios from "axios";
 
@@ -11,6 +11,7 @@ const AREA_SUCCESS_CODE = "SUCCESS_AREA_RANKING_MY_RANK"; // 구
 
 
 class Rank {
+  //const {setState:setUserState} = userProxy;
   getGlobalRanking(){
     const {setState, data:{global:data}} = rankProxy;
     setState({
@@ -72,13 +73,12 @@ class Rank {
           'Authorization': `Bearer ${getToken()}`
         },
         data: {
-          "regionName": "대구",
-          "areaName": "북구"
+          regionName : userProxy.data.regionName,
+          areaName : userProxy.data.areaName
         },
         url: "/api/rank/area/my-rank",
       })
         .then((response:any) => {
-
           
           const { data:responseData} = response;
           const { result, data:[data]} = responseData;
@@ -123,7 +123,7 @@ class Rank {
           'Authorization': `Bearer ${getToken()}`
         },
         data: {
-          "regionName": "대구"
+          regionName: userProxy.data.regionName
         },
         url: "/api/rank/region/my-rank",
       })
