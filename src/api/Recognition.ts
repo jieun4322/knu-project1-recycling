@@ -4,6 +4,7 @@ import axios from "axios";
 import User from "./User"
 import { getToken, setToken } from "@/utils";
 import Point from "./Point";
+import Score from "./Score";
 
 const SUCCESS_CODE = "SUCCESS_LOGIN"
 const BOTTLE_SUCCESS_CODE = "SUCCESS_PET_RECOGNITION";
@@ -56,8 +57,10 @@ class Recognition{
   bottle(image: any){
     const {setState} = bottleProxy;
     const {setState:setPointState} = pointProxy;
+    // const {setState:setScoreState} = scoreProxy;
     const {setState: setCapacity} = containerCapacityProxy;
     const myPoint = new Point;
+    const myScore = new Score;
     setState({
       status: apiStatuses.pending
     });
@@ -119,6 +122,12 @@ class Recognition{
               lastPoint: additionalPoint
             })
   
+            resolve(null);
+          }).catch((() => {
+            reject();
+          }));
+          
+          myScore.addScore(addPoints).then(() => {
             resolve(null);
           }).catch((() => {
             reject();

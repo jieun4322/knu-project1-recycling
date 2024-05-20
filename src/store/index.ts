@@ -52,6 +52,17 @@ export const pointProxy= proxy({
   }
 });
 
+export const scoreProxy= proxy({
+  data: {
+    lastScore: 0,
+  },
+  setState: (stateParams: any) => {
+    const setData:any = Object.assign({}, scoreProxy.data) 
+    Object.keys(stateParams).map(k => setData[k] = stateParams[k]);
+    scoreProxy.data=  setData
+  }
+});
+
 export const rankProxy= proxy({
   data: {
     global: {
