@@ -18,10 +18,11 @@
 import { defineConfig } from 'vite';
 import reactRefresh from '@vitejs/plugin-react-refresh';
 import path from 'path';
-import basicSsl from "@vitejs/plugin-basic-ssl";
+// import basicSsl from "@vitejs/plugin-basic-ssl";
 
 export default defineConfig({
-  plugins: [basicSsl(), reactRefresh()],
+  // plugins: [basicSsl(), reactRefresh()],
+  plugins: [reactRefresh()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src/') // @를 src/ 폴더로 매핑
@@ -30,9 +31,8 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://localhost:8080", // Flask 애플리케이션의 주소
+        target: "http://localhost:8081", // Flask 애플리케이션의 주소
         changeOrigin: true,
-        secure: false,
       },
     },
   },
