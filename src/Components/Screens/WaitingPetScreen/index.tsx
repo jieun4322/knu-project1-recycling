@@ -105,7 +105,8 @@ const WebCamContainer = styled.div`
 const videoConstraints = {
   width: 500,
   height: 500,
-  facingMode: "user",
+  deviceId: localStorage.getItem("bottleCameraId"),
+  // facingMode: "user",
 };
 
 const WaitingScreen = () => {
@@ -221,7 +222,7 @@ const WaitingScreen = () => {
           ref={webcamRef}
           screenshotFormat="image/jpeg"
           width={"0"}
-          videoConstraints={videoConstraints}
+          videoConstraints={videoConstraints as any}
         />
       </WebCamContainer>
     </BackgroundImage>

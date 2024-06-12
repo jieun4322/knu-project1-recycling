@@ -24,10 +24,15 @@ export const base64ToFile = (base64Data: any, filename: string) => {
   return file;
 }
 
-export const setToken = (token:string) => {
-  Cookies.set("__token", token, { expires: 7 }); 
+export const setToken = (token:string, expires?:number) => {
+  Cookies.set("__token", token, { expires: expires ?? 7 }); 
 };
 
 export const getToken = () => {
   return Cookies.get("__token");
+};
+
+
+export const clearToken = () => {
+  return setToken("", -1)
 };

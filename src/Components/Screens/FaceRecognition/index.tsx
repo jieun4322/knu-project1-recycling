@@ -46,7 +46,8 @@ const WebCamContainer = styled.div`
 const videoConstraints = {
   width: 500,
   height: 500,
-  facingMode: "user",
+  deviceId: localStorage.getItem("faceCameraId"),
+  // facingMode: "user",
 };
 
 const frScreen = () => {
@@ -71,13 +72,13 @@ const frScreen = () => {
         }, 1000);
       });
   };
-  /*
-  const onchange = (event: any) => {
-    myRecognition
-      .face(event.target.files[0])
-      .then(() => navigate("/recognition-complete"));
-  };
-  */
+
+  // const onchange = (event: any) => {
+  //   myRecognition
+  //     .face(event.target.files[0])
+  //     .then(() => navigate("/recognition-complete"));
+  // };
+
   useEffect(() => {
     // 이거 잠깐 주석
     if (face.data.status === apiStatuses.idle)
@@ -87,7 +88,7 @@ const frScreen = () => {
 
   return (
     <BackgroundImage>
-      <Header>{/*<input onChange={onchange} type="file" />*/}</Header>
+      <Header>{/* <input onChange={onchange} type="file" /> */}</Header>
       <FlexContainer>
         <StyledWhiteCard>
           <FrScreenInfo>앞쪽 카메라를 바라 보세요</FrScreenInfo>
@@ -98,7 +99,7 @@ const frScreen = () => {
               ref={webcamRef}
               screenshotFormat="image/jpeg"
               width={"100%"}
-              videoConstraints={videoConstraints}
+              videoConstraints={videoConstraints as any}
             />
           </WebCamContainer>
         </StyledWhiteCard>

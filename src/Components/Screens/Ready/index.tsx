@@ -1,17 +1,23 @@
 import styled from "@emotion/styled";
 import { useSnapshot } from "valtio";
-import { containerCapacityProxy } from "@/store";
-import { useEffect } from "react";
-import Point from "@/api/Point";
+import {
+  containerCapacityProxy,
+  userProxy,
+  pointProxy,
+  scoreProxy,
+  rankProxy,
+} from "@/store";
+import { clearToken } from "@/utils";
 
 import bottleImage from "@/assets/Images/waterbottle1.png";
 
-// components
+// compoennts
 import Header from "@/Components/Common/Header";
 import WhiteCard from "@/Components/Common/WhiteCard";
 import FlexContainer from "@/Components/Common/FlexContainer";
 import Button from "@/Components/Common/Button";
 import BackgroundImage from "@/Components/Common/BackgroundImage";
+import { useEffect } from "react";
 
 const ContentContainer = styled.div`
   display: flex;
@@ -178,7 +184,6 @@ const ImageBox1 = styled.div`
 // `
 
 const ReadyScreen = () => {
-  const myPoint = new Point();
   const { data } = useSnapshot(containerCapacityProxy);
 
   const percentage: number = Math.floor(
@@ -186,10 +191,13 @@ const ReadyScreen = () => {
   );
 
   useEffect(() => {
-    myPoint.reset();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    userProxy.reset();
+    pointProxy.reset();
+    scoreProxy.reset();
+    rankProxy.reset();
+    clearToken();
   }, []);
+
   return (
     <BackgroundImage>
       <Header></Header>

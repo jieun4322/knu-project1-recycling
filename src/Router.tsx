@@ -4,8 +4,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AdScreen from "@/Components/Screens/AdScreen";
 import ReadyScreen from "@/Components/Screens/Ready";
 import FrScreen from "@/Components/Screens/FaceRecognition";
-import WaitingScreen from "./Components/Screens/WaitingPetScreen";
-import ResultScreen from "./Components/Screens/Result";
+import WaitingScreen from "@/Components/Screens/WaitingPetScreen";
+import ResultScreen from "@/Components/Screens/Result";
+import CameraScreen from "@/Components/Screens/Camera";
 import RecognitionCompleteScreen from "./Components/Screens/RecognitionComplete";
 
 const router = createBrowserRouter([
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: "/result",
     element: <ResultScreen />,
+  },
+  {
+    path: "/camera",
+    element: <CameraScreen />,
   },
 ]);
 
